@@ -25,10 +25,11 @@ param="$3"
 ##########
 # Send Command Functions
 ##########
-function sendCmd { # Generic send any command the controller
+function sendCmd {      # Generic send any command the controller
     ctrl="\x55"
     cmd=$1
-    echo -n -e "$cmd$ctrl" | nc -w 1 -u $ipaddress $portnum
+    # Try sending to /dev/udp, if that fails use netcat
+    echo -n -e "$cmd$ctrl" >/dev/udp/$ipaddress/$portnum || echo -n -e "$cmd$ctrl" | nc -w 1 -u $ipaddress $portnum
 }
 function sendOnCommand {    # On command is also used to select zones
     onarray=("\x35" "\x38" "\x3D" "\x37" "\x32")
@@ -132,7 +133,7 @@ case $command in
     "on"|"ON")
         handleOn;;
     "off"|"OFF")
-        handOff;;
+        handleOff;;
     "b"|"B")
         if [ $param = "i" ]
         then

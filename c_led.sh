@@ -28,7 +28,8 @@ param="$3"
 function sendCmd {      # Generic send any command the controller
     ctrl="\x55"
     cmd=$1
-    echo -n -e "$cmd$ctrl" | nc -w 1 -u $ipaddress $portnum
+    # Try sending to /dev/udp, if that fails use netcat
+    echo -n -e "$cmd$ctrl" >/dev/udp/$ipaddress/$portnum || echo -n -e "$cmd$ctrl" | nc -w 1 -u $ipaddress $portnum
 }
 function sendOnCommand {        # On command is also used to select zones
     onarray=("\x42" "\x45" "\x47" "\x49" "\x4B")
@@ -45,7 +46,7 @@ function sendOffCommand {
     sendCmd "${offarray[$zone]}$standby"
 }
 function sendBrightCmd {
-    brightarray=("\x02" "\x04" "\x08" "\x0A" "\x0B" "\xD0" "\x10" "\x13" "\x16" "\x19" "\x1B")                                      
+    brightarray=("\x02" "\x03" "\x04" "\x05" "\x08" "\x09" "\x0A" "\x0B" "\x0D" "\x0E" "\x0F" "\x10" "\x12" "\x13" "\x14" "\x15" "\x17" "\x18" "\x19")
     selectZone
     bright="\x4E"
     cmd="${brightarray[$1]}"
@@ -81,7 +82,7 @@ function handleBrightness {
         "full")
             echo "You turned colour bulbs in zone $zone to full brightness"
             sendBrightCmd "10";;
-        [0-9])
+        [0-9]|1[0-8])
             echo "You turned colour bulbs in zone $zone to $param"
             sendBrightCmd "$param";;
         *)
@@ -119,7 +120,7 @@ case $command in
     "on"|"ON")
         handleOn;;
     "off"|"OFF")
-        handOff;;
+        handleOff;;
     "b"|"B")
         handleBrightness;;
     "c"|"C")
