@@ -87,9 +87,9 @@ function colour {
         case $param in    
             "full")
                 echo "You turned colour bulbs in zone $zone to full brightness"
-                sendBrightCmd "10";;
+                sendBrightCmd "18";;
             [0-9]|1[0-8])
-                echo "You turned colour bulbs in zone $zone to $param"
+                echo "You turned colour bulbs in zone $zone to $param ($[$[param + 2] * 5]%)"
                 sendBrightCmd "$param";;
             *)
                 echo "You've done something wrong";;
