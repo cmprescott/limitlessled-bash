@@ -13,6 +13,7 @@ fi
 # Wifi controller information
 ipaddress="10.1.1.23"
 portnum="8899"
+stbySleepTime=0.1
 
 ##########
 # Input
@@ -43,7 +44,7 @@ function colour {
     }
     function selectZone {   # Select zone by sending standby cmd and sleep for a second
         sendOnCommand
-        sleep 0
+        sleep $stbySleepTime
     }
     function sendOffCommand {
         offarray=("\x41" "\x46" "\x48" "\x4A" "\x4C")
@@ -155,7 +156,7 @@ function white {
     }
     function selectZone {    # Select zone by sending standby cmd and sleep for a second
         sendOnCommand
-        sleep 0
+        sleep $stbySleepTime
     }
     function sendOffCommand {
         offarray=("\x39" "\x3B" "\x33" "\x3A" "\x36")
