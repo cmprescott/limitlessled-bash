@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ##########
 # About - color_fade_in.sh
 ##########
@@ -8,7 +10,7 @@
 # Config
 ##########
 # Please configure the location of led.sh in the script. The script also take 3 parameters (zone, sleep time, color)
-path_to_led_script="/home/cp/MiLight/limitlessled-bash/"
+path_to_led_script="/home/cp/MiLight/limitlessled-bash/led.sh"
 
 ##########
 # Input
@@ -22,9 +24,9 @@ color=$3
 # Setup. Go to script loc, turn on, and set color.
 ##########
 cd $path_to_led_script
-./led.sh c $zone on
+bash $path_to_led_script c $zone on
 sleep 1
-./led.sh c $zone c $color
+bash $path_to_led_script c $zone c $color
 sleep 1
 
 ##########
@@ -32,7 +34,7 @@ sleep 1
 ##########
 function changeBrightAndSleep {
     level=$1
-    ./led.sh c $zone b $level
+    bash $path_to_led_script c $zone b $level
     sleep $sleep_time
 }
 
