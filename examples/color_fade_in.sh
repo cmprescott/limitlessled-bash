@@ -21,6 +21,13 @@ sleep_time=$2
 color=$3
 
 ##########
+# Log. let's know what we are doing
+##########
+echo --------------------
+echo starting color_fade_in.sh
+date
+
+##########
 # Setup. Go to script loc, turn on, and set color.
 ##########
 cd $path_to_led_script
@@ -44,4 +51,11 @@ function changeBrightAndSleep {
 for i in `seq 0 18`;
 do
     changeBrightAndSleep $i
-done    
+done
+
+##########
+# Log. let's know we are done
+##########
+date
+echo end color_fade_in.sh
+echo --------------------
